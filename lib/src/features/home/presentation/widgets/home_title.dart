@@ -14,13 +14,8 @@ class HomeTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        Navigator.pushNamed(context, SplashScreen.routeName);
-      },
-      child: Center(
-        child: CoreTypography.coreText(text: message),
-      ),
+    return Center(
+      child: CoreTypography.coreText(text: message),
     );
   }
 }
