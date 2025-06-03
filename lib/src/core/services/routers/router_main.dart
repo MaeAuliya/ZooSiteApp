@@ -10,6 +10,23 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         ),
         settings: settings,
       );
+    case HomeScreen.routeName:
+      return _pageBuilder(
+        (_) => BlocProvider(
+          create: (_) => sl<HomeBloc>(),
+          child: const HomeScreen(),
+        ),
+        settings: settings,
+      );
+    case ClassificationScreen.routeName:
+      final imageSource = settings.arguments as String? ?? ImagePickerTypeEnums.camera;
+      return _pageBuilder(
+        (_) => BlocProvider(
+          create: (_) => sl<ClassificationBloc>(),
+          child: ClassificationScreen(imageSource: imageSource),
+        ),
+        settings: settings,
+      );
     default:
       return _pageBuilder(
         (_) => const PageUnderConstruction(),

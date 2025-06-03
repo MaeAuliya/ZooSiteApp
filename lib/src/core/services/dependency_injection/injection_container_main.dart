@@ -4,39 +4,33 @@ final sl = GetIt.instance;
 
 Future<void> initialization() async {
   final imagePicker = ImagePicker();
-  final modelDownloader = FirebaseModelDownloader.instance;
 
   await _initCore(
-    modelDownloader: modelDownloader,
     imagePicker: imagePicker,
   );
   // initiate your dependency asynchronously but still parallel
-  await _initHome();
   await Future.wait([
     _initHome(),
-    // Feature A
+    _initClassification(),
     // Feature B
   ]);
 }
 
 Future<void> _initCore({
-  required FirebaseModelDownloader modelDownloader,
   required ImagePicker imagePicker,
 }) async {
-  sl
-    ..registerLazySingleton(() => modelDownloader)
-    ..registerLazySingleton(() => imagePicker);
+  sl.registerLazySingleton(() => imagePicker);
 }
 
 Future<void> _initHome() async {
   sl
     // Bloc
     ..registerFactory(() => HomeBloc(
-          exampleUseCase: sl(),
+          getAnimalHistories: sl(),
         ))
 
     // Usecases
-    ..registerLazySingleton(() => ExampleUseCase(repository: sl()))
+    ..registerLazySingleton(() => GetAnimalHistories(repository: sl()))
 
     // Repository
     ..registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(
@@ -49,34 +43,26 @@ Future<void> _initHome() async {
         ));
 }
 
-// Future<void> _initExample() async {
-//   sl
-//   // Bloc
-//     ..registerFactory(() => ExampleBloc(
-//       example: sl(),
-//     ))
-//
-//   // Usecases
-//     ..registerLazySingleton(() => ExampleUseCase(repository: sl()))
-//
-//   // Repository
-//     ..registerLazySingleton<ExampleRepository>(
-//             () => ExampleRepositoryImpl(
-//           localDataSource: sl(),
-//           remoteDataSource: sl(),
-//         ))
-//
-//   // Data Sources
-//     ..registerLazySingleton<ExampleLocalDataSource>(
-//             () => ExampleLocalDataSourceImpl(
-//           preferences: sl(),
-//           filePicker: sl(),
-//           imagePicker: sl(),
-//         ))
-//     ..registerLazySingleton<ExampleRemoteDataSource>(
-//             () => ExampleRemoteDataSourceImpl(
-//           dio: sl(),
-//           api: sl(),
-//           preferences: sl(),
-//         ));
-// }
+Future<void> _initClassification() async {
+  sl
+    // Bloc
+    ..registerFactory(() => ClassificationBloc(
+          takeImage: sl(),
+          classifyImage: sl(),
+        ))
+
+    // Usecases
+    ..registerLazySingleton(() => TakeImage(repository: sl()))
+    ..registerLazySingleton(() => ClassifyImage(repository: sl()))
+
+    // Repository
+    ..registerLazySingleton<ImageClassificationRepository>(() => ImageClassificationRepositoryImpl(
+          localDataSource: sl(),
+        ))
+
+    // Data Sources
+    ..registerLazySingleton<ImageClassificationLocalDataSource>(
+        () => ImageClassificationLocalDataSourceImpl(
+              imagePicker: sl(),
+            ));
+}

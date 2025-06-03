@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/res/media_res.dart';
+import '../../../../core/utils/core_utils.dart';
 import '../bloc/home_bloc.dart';
-import '../bloc/home_event.dart';
-import '../bloc/home_state.dart';
-import '../providers/home_provider.dart';
-import '../views/splash_view.dart';
+import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,36 +17,32 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
-    context.homeBloc.add(ExampleEvent('Test'));
+    context.homeBloc.add(GetAnimalHistoriesEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<HomeBloc, HomeState>(
-        listener: (context, state) {
-          if (state is HomeError) {
-            debugPrint('error');
-          } else if (state is ExampleError) {
-            debugPrint('example Error');
-          } else if (state is ExampleLoading) {
-            debugPrint('example loading');
-          } else if (state is ExampleSuccess) {
-            context.homeProvider.initExample(state.example);
-            context.homeBloc.add(ShowDialogEvent());
-          } else if (state is ShowDialogSuccess) {
-            showDialog(
-              context: context,
-              builder: (_) => Container(),
-            );
+      body: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) async {
+          if (state is GetAnimalHistoriesError) {
+            CoreUtils.debugHandler(state.runtimeType, state.errorMessage);
+          } else if (state is GetAnimalHistoriesSuccess) {
+            context.homeProvider.initHistories(state.histories);
+            await Future.delayed(Duration(seconds: 2), (){
+              if (!context.mounted) return;
+              Navigator.pushNamed(context, HomeScreen.routeName);
+            });
           }
         },
-        builder: (context, state) => SplashView(
-          currentState: state,
+        child: Image.asset(
+          MediaRes.splashScreenBg,
+          width: context.width,
+          height: context.height,
+          fit: BoxFit.cover,
         ),
       ),
     );
