@@ -1,39 +1,49 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/usecase/example_use_case.dart';
-import 'home_event.dart';
-import 'home_state.dart';
+import '../../../../core/shared/entities/animal.dart';
+import '../../domain/usecase/get_animal_histories.dart';
+
+part 'home_event.dart';
+part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  // example usecase
-  final ExampleUseCase _exampleUseCase;
+  final GetAnimalHistories _getAnimalHistories;
 
   HomeBloc({
-    required ExampleUseCase exampleUseCase,
-  })  : _exampleUseCase = exampleUseCase,
+    required GetAnimalHistories getAnimalHistories,
+  })  : _getAnimalHistories = getAnimalHistories,
         super(const HomeInit()) {
-    on<HomeEvent>((event, emit) {
+    on<HomeEvent>((event, emit){
       emit(HomeLoading());
     });
-    on<ExampleEvent>(_exampleUseCaseHandler);
-    on<ShowDialogEvent>(_showDialogHandler);
+    on<GetAnimalHistoriesEvent>(_getAnimalHistoriesHandler);
+    on<OpenImageSourceBottomSheetEvent>(_openImageSourceBottomSheetHandler);
+    on<OpenDialogOnConstructionEvent>(_openDialogOnConstructionHandler);
   }
 
-  Future<void> _exampleUseCaseHandler(
-    ExampleEvent event,
+  Future<void> _getAnimalHistoriesHandler(
+    GetAnimalHistoriesEvent event,
     Emitter<HomeState> emit,
   ) async {
-    final result = await _exampleUseCase.call(event.example);
+    final result = await _getAnimalHistories();
     result.fold(
-      (failure) => emit(ExampleError(failure.message)),
-      (example) => emit(ExampleSuccess(example)),
+      (errorMessage) => emit(GetAnimalHistoriesError(errorMessage.message)),
+      (histories) => emit(GetAnimalHistoriesSuccess(histories: histories)),
     );
   }
 
-  Future<void> _showDialogHandler(
-    ShowDialogEvent event,
+  Future<void> _openImageSourceBottomSheetHandler(
+    OpenImageSourceBottomSheetEvent event,
     Emitter<HomeState> emit,
   ) async {
-    emit(ShowDialogSuccess());
+    emit(OpenImageSourceBottomSheetSuccess());
+  }
+
+  Future<void> _openDialogOnConstructionHandler(
+    OpenDialogOnConstructionEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(OpenDialogOnConstructionSuccess());
   }
 }

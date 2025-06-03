@@ -2,13 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/errors/exception.dart';
-import '../models/example_model.dart';
+import '../../../../core/res/media_res.dart';
+import '../../../../core/shared/models/animal_model.dart';
 
 abstract class HomeLocalDataSource {
   const HomeLocalDataSource();
 
-  Future<ExampleModel> exampleUseCase(String example);
+  Future<List<CoreAnimalModel>> getAnimalHistories();
 }
+
+List<CoreAnimalModel> tempHistories = [];
 
 class HomeLocalDataSourceImpl implements HomeLocalDataSource {
   final ImagePicker _imagePicker;
@@ -18,16 +21,24 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
   }) : _imagePicker = imagePicker;
 
   @override
-  Future<ExampleModel> exampleUseCase(String example) async {
+  Future<List<CoreAnimalModel>> getAnimalHistories() async {
     try {
-      final message = 'Hello World! $example';
+      final dummyTempHistories = List.generate(
+        6,
+        (index) => CoreAnimalModel(
+          name: (index.isEven) ? 'Maximus Elephant' : 'Maximus Lion',
+          scienceName: (index.isEven) ? 'Elephas Maximus' : 'Leona Maximus',
+          uniqueFact: 'Uniques Fact ${index + 1}',
+          image: (index.isEven) ? MediaRes.dummyElephantImages : MediaRes.dummyLionImages,
+        ),
+      );
 
-      final result =  ExampleModel(message: message);
+      tempHistories.addAll(dummyTempHistories);
 
-      return result;
+      return tempHistories;
     } on LocalException {
       rethrow;
-    } catch (e,s) {
+    } catch (e, s) {
       debugPrintStack(stackTrace: s);
       throw LocalException(message: e.toString());
     }

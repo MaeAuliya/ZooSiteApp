@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:zoosite/src/core/services/dependency_injection/injection_container.dart';
-import 'package:zoosite/src/features/home/presentation/screens/splash_screen.dart';
+import 'src/core/services/dependency_injection/injection_container.dart';
+import 'src/features/home/presentation/screens/splash_screen.dart';
 
+import 'src/core/res/app_theme.dart';
 import 'src/core/services/routers/router.dart';
 import 'src/features/home/presentation/providers/home_provider.dart';
+import 'src/features/image_classification/presentation/providers/classification_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,16 +29,20 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => ClassificationProvider()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        builder: (context, child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
+            child: child!,
+          );
+        },
+        title: 'ZooSite',
+        debugShowCheckedModeBanner: false,
+        theme: theme(),
         onGenerateRoute: (settings) => generateRoute(settings),
         initialRoute: SplashScreen.routeName,
-        home: SplashScreen(),
       ),
     );
   }

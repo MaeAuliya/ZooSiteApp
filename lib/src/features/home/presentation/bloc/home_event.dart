@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'home_bloc.dart';
 
 abstract class HomeEvent extends Equatable {
   const HomeEvent();
@@ -7,15 +7,14 @@ abstract class HomeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class ExampleEvent extends HomeEvent {
-  final String example;
-
-  const ExampleEvent(this.example);
-
-  @override
-  List<Object?> get props => [example];
+final class GetAnimalHistoriesEvent extends HomeEvent {
+  const GetAnimalHistoriesEvent();
 }
 
-final class ShowDialogEvent extends HomeEvent {
-  const ShowDialogEvent();
+final class OpenImageSourceBottomSheetEvent extends HomeEvent {
+  const OpenImageSourceBottomSheetEvent();
+}
+
+final class OpenDialogOnConstructionEvent extends HomeEvent {
+  const OpenDialogOnConstructionEvent();
 }

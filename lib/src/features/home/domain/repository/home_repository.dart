@@ -1,8 +1,8 @@
 import '../../../../core/utils/typedef.dart';
-import '../entities/example.dart';
+import '../../../../core/shared/entities/animal.dart';
 
 abstract class HomeRepository {
   const HomeRepository();
 
-  ResultFuture<Example> exampleUseCase(String example);
+  ResultFuture<List<CoreAnimal>> getAnimalHistories();
 }
