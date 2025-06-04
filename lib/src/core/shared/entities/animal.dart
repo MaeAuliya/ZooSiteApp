@@ -5,12 +5,14 @@ class CoreAnimal extends Equatable {
   final String scienceName;
   final String uniqueFact;
   final String image;
+  final String description;
 
   const CoreAnimal({
     required this.name,
     required this.scienceName,
     required this.uniqueFact,
     required this.image,
+    required this.description,
   });
 
   @override
@@ -19,5 +21,6 @@ class CoreAnimal extends Equatable {
     scienceName,
     uniqueFact,
     image,
+    description,
   ];
 }

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../home/presentation/bloc/home_bloc.dart';
+import '../../../../core/enums/classification_model_type.dart';
 import '../../domain/entities/classification_animal.dart';
 import '../../domain/entities/image_classification_params.dart';
 import '../../domain/usecases/classify_image.dart';
@@ -25,6 +25,8 @@ class ClassificationBloc extends Bloc<ClassificationEvent, ClassificationState> 
     });
     on<TakeImageEvent>(_takeImageHandler);
     on<ClassifyImageEvent>(_classifyImageHandler);
+    on<ShowModelBottomSheetEvent>(_showModelBottomSheetHandler);
+    on<ChangeModelEvent>(_changeModelHandler);
   }
 
   Future<void> _takeImageHandler(
@@ -54,5 +56,19 @@ class ClassificationBloc extends Bloc<ClassificationEvent, ClassificationState> 
       (failure) => emit(ClassifyImageError(failure.errorMessage)),
       (animal) => emit(ClassifyImageSuccess(animal)),
     );
+  }
+
+  Future<void> _showModelBottomSheetHandler(
+    ShowModelBottomSheetEvent event,
+    Emitter<ClassificationState> emit,
+  ) async {
+    emit(ShowModelBottomSheetSuccess());
+  }
+
+  Future<void> _changeModelHandler(
+    ChangeModelEvent event,
+    Emitter<ClassificationState> emit,
+  ) async {
+    emit(ChangeModelSuccess(event.model));
   }
 }

@@ -25,6 +25,7 @@ dependencies:
   bloc: ^9.0.0
   flutter_svg: ^2.1.0
   image: ^3.3.0
+  flutter_speed_dial: ^7.0.0
 
 dev_dependencies:
   flutter_test:

@@ -58,3 +58,16 @@ final class ClassifyImageError extends ClassificationState {
   @override
   List<Object?> get props => [errorMessage];
 }
+
+final class ShowModelBottomSheetSuccess extends ClassificationState {
+  const ShowModelBottomSheetSuccess();
+}
+
+final class ChangeModelSuccess extends ClassificationState {
+  final ClassificationModelType currentModel;
+
+  const ChangeModelSuccess(this.currentModel);
+
+  @override
+  List<Object?> get props => [currentModel];
+}

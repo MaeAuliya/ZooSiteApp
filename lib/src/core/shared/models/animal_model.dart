@@ -6,6 +6,7 @@ class CoreAnimalModel extends CoreAnimal {
     required super.scienceName,
     required super.uniqueFact,
     required super.image,
+    required super.description,
   });
 
   const CoreAnimalModel.empty()
@@ -14,6 +15,7 @@ class CoreAnimalModel extends CoreAnimal {
           scienceName: '',
           uniqueFact: '',
           image: '',
+          description: '',
         );
 
   CoreAnimalModel.fromEntity(CoreAnimal entity)
@@ -22,5 +24,6 @@ class CoreAnimalModel extends CoreAnimal {
           scienceName: entity.scienceName,
           uniqueFact: entity.uniqueFact,
           image: entity.image,
+          description: entity.description,
         );
 }

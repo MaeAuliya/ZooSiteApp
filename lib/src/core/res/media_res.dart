@@ -10,6 +10,7 @@ class MediaRes {
   static const mapsIcon = '$_baseIcons/maps_icon.svg';
   static const imageClassificationIcon = '$_baseIcons/image_classification_icon.svg';
   static const voiceRecognitionIcon = '$_baseIcons/voice_recognition_icon.svg';
+  static const fishClassificationIcon = '$_baseIcons/fish_classification_icon.svg';
   static const exampleIcon = '$_baseIcons/.svg';
 
   // Images

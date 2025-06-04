@@ -6,6 +6,7 @@ class ClassificationAnimalModel extends ClassificationAnimal {
     required super.scienceName,
     required super.uniqueFact,
     required super.image,
+    required super.description,
     required super.computeTime,
     required super.accuration,
   });
@@ -16,6 +17,7 @@ class ClassificationAnimalModel extends ClassificationAnimal {
           scienceName: entity.scienceName,
           uniqueFact: entity.uniqueFact,
           image: entity.image,
+          description: entity.description,
           computeTime: entity.computeTime,
           accuration: entity.accuration,
         );

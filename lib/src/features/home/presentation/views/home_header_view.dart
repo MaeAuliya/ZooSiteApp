@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../core/enums/classification_model_type.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/res/colours.dart';
 import '../../../../core/res/media_res.dart';
@@ -77,7 +78,7 @@ class HomeHeaderView extends StatelessWidget {
                   children: [
                     CoreTypography.coreText(
                       text: 'Jelajahi Kebun Binatang Lewat',
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colours.whiteColor,
                     ),
                     CoreTypography.coreText(
@@ -92,7 +93,14 @@ class HomeHeaderView extends StatelessWidget {
                     GestureDetector(
                       onTap: (){
                         if (provider.currentHeader == 1){
+                          if (context.classificationProvider.currentAnimalModel == null) {
+                            context.classificationProvider.updateModel(ClassificationModelType.kusumo);
+                          }
                           context.homeBloc.add(OpenImageSourceBottomSheetEvent());
+                        } else if (provider.currentHeader == 2){
+                          context.homeBloc.add(OpenImageSourceBottomSheetEvent());
+                        } else {
+                          context.homeBloc.add(OpenDialogOnConstructionEvent());
                         }
                       },
                       child: Column(

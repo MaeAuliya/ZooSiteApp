@@ -30,6 +30,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
           scienceName: (index.isEven) ? 'Elephas Maximus' : 'Leona Maximus',
           uniqueFact: 'Uniques Fact ${index + 1}',
           image: (index.isEven) ? MediaRes.dummyElephantImages : MediaRes.dummyLionImages,
+          description: 'desc $index'
         ),
       );
 

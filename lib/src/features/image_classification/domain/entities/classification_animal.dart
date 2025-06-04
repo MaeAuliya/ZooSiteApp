@@ -9,12 +9,18 @@ class ClassificationAnimal extends CoreAnimal {
     required super.scienceName,
     required super.uniqueFact,
     required super.image,
+    required super.description,
     required this.computeTime,
     required this.accuration,
   });
 
   @override
   List<Object?> get props => [
+        name,
+        scienceName,
+        uniqueFact,
+        image,
+        description,
         computeTime,
         accuration,
       ];

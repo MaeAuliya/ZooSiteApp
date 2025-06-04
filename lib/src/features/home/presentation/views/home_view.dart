@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/shared/views/loading_view.dart';
 import '../providers/home_provider.dart';
 import 'home_chat_bot_view.dart';
 import 'home_header_view.dart';
@@ -21,6 +22,9 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
       builder: (_, provider, __) {
+        if (provider.animalHistories == null) {
+          return LoadingView(color: Colors.white,);
+        }
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           spacing: context.heightScale * 32,

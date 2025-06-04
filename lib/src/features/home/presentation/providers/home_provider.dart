@@ -35,7 +35,8 @@ class HomeProvider extends ChangeNotifier {
 
   final List<String> _headerTitles = [
     'Peta',
-    'Kalsifikasi Gambar',
+    'Kalsifikasi Hewan',
+    'Klasifikasi Ikan',
     'Pengenalan Suara',
   ];
 
@@ -46,6 +47,7 @@ class HomeProvider extends ChangeNotifier {
   final List<String> _headerIcons = [
     MediaRes.mapsIcon,
     MediaRes.imageClassificationIcon,
+    MediaRes.fishClassificationIcon,
     MediaRes.voiceRecognitionIcon,
   ];
 
@@ -66,7 +68,7 @@ class HomeProvider extends ChangeNotifier {
 
   void back() {
     if (_currentHeader == 0){
-      _currentHeader = 2;
+      _currentHeader = 3;
     } else {
       _currentHeader--;
     }

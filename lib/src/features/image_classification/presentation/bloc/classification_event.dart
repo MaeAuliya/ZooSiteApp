@@ -25,3 +25,16 @@ final class ClassifyImageEvent extends ClassificationEvent {
   List<Object?> get props => [params];
 }
 
+final class ShowModelBottomSheetEvent extends ClassificationEvent {
+  const ShowModelBottomSheetEvent();
+}
+
+final class ChangeModelEvent extends ClassificationEvent {
+  final ClassificationModelType model;
+
+  const ChangeModelEvent(this.model);
+
+  @override
+  List<Object?> get props => [model];
+}
+

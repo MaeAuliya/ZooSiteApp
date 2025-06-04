@@ -19,6 +19,7 @@ class CoreTypography {
     int maxLine = 1,
     TextAlign textAlign = TextAlign.start,
     double? textHeight,
+    FontStyle? fontStyle,
   }) =>
       Text(
         text,
@@ -31,6 +32,7 @@ class CoreTypography {
           // fontFamily: Fonts.roboto, // // Apply your default fonts here
           fontWeight: fontWeight,
           height: textHeight,
+          fontStyle: fontStyle,
         ),
         overflow: isTextOverflow ? TextOverflow.ellipsis : null,
         maxLines: maxLine,

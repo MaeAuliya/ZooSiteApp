@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/shared/widgets/core_dialog.dart';
 import '../../../../core/shared/widgets/image_source_bottom_sheet.dart';
 import '../../../image_classification/presentation/screens/classification_screen.dart';
 import '../bloc/home_bloc.dart';
@@ -40,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state is OpenImageSourceBottomSheetSuccess) {
@@ -47,8 +49,21 @@ class _HomeScreenState extends State<HomeScreen> {
               context: context,
               builder: (_) => ImageSourceBottomSheet(
                 onTap: (source) {
-                  Navigator.pushNamed(context, ClassificationScreen.routeName, arguments: source);
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                    context,
+                    ClassificationScreen.routeName,
+                    arguments: source,
+                  );
                 },
+              ),
+            );
+          } else if (state is OpenDialogOnConstructionSuccess) {
+            showDialog(
+              context: context,
+              builder: (_) => CoreDialog(
+                title: 'This page is under construction.',
+                description: 'We\'re sorry, currently we still upgrading our features.',
               ),
             );
           }

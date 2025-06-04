@@ -9,6 +9,8 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 import '../../../../core/enums/classification_model_type.dart';
 import '../../../../core/enums/image_picker_type.dart';
 import '../../../../core/errors/exception.dart';
+import '../../../../core/shared/models/animal_model.dart';
+import '../../../home/data/datasources/home_local_data_source.dart';
 import '../models/classification_animal _model.dart';
 import '../models/classifier_model.dart';
 import '../models/image_classification_params_model.dart';
@@ -41,7 +43,6 @@ class ImageClassificationLocalDataSourceImpl implements ImageClassificationLocal
 
       debugPrint(inputShape.toString());
       debugPrint(inputShape.toString());
-
 
       final inputType = interpreter.getInputTensor(0).type;
       final outputType = interpreter.getOutputTensor(0).type;
@@ -139,19 +140,31 @@ class ImageClassificationLocalDataSourceImpl implements ImageClassificationLocal
       final durationInMilliseconds = stopwatch.elapsedMicroseconds / 1e6;
 
       var prediction = List<double>.from(outputBuffer[0]);
+      debugPrint(prediction.toString());
       var maxIndex = prediction.indexWhere((e) => e == prediction.reduce((a, b) => a > b ? a : b));
       var accuration = prediction[maxIndex];
-      var name = 'Fanny';
+      var model = params.modelName;
       // var calories = Constant.calories[maxIndex];
 
       final animal = ClassificationAnimalModel(
-        name: name,
-        scienceName: 'Fanny Kontolius',
-        uniqueFact: 'Fanny Kontolius',
+        name: ClassificationModelTypeEnums.getAnimalName(model)[maxIndex],
+        scienceName: ClassificationModelTypeEnums.getAnimalLatinName(model)[maxIndex],
+        uniqueFact: ClassificationModelTypeEnums.getAnimalUniqueFact(model)[maxIndex],
+        description: ClassificationModelTypeEnums.getAnimalDesc(model)[maxIndex],
         image: params.image,
         computeTime: durationInMilliseconds,
         accuration: accuration,
       );
+
+      final history = CoreAnimalModel(
+        name: ClassificationModelTypeEnums.getAnimalName(model)[maxIndex],
+        scienceName: ClassificationModelTypeEnums.getAnimalLatinName(model)[maxIndex],
+        uniqueFact: ClassificationModelTypeEnums.getAnimalUniqueFact(model)[maxIndex],
+        description: ClassificationModelTypeEnums.getAnimalDesc(model)[maxIndex],
+        image: params.image,
+      );
+
+      tempHistories.add(history);
 
       return animal;
     } on LocalException {
