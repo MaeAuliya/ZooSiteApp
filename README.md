@@ -53,3 +53,23 @@ ZooSite adalah aplikasi edukasi kebun binatang dengan fitur kalsidikasi gambar h
   
 > **Solusi sementara**: Fokus pengujian pada platform Android. Untuk distribusi iOS, akan dilakukan jika akses Apple Developer tersedia.
 
+## 📚 Referensi & Kredit
+
+Pengembangan fitur klasifikasi hewan dalam aplikasi ini mengacu pada hasil penelitian dan kontribusi dari penulis sebelumnya:
+
+1. **Cikanindi, Vania (2022)**  
+   Penerapan Universal Sentence Encoder (Use) Untuk Location-Aware Chatbot Pada Aplikasi Layanan Wisata Kebun Binatang.  
+   [Undergraduate Tesis](https://repository.its.ac.id/94474/)
+
+2. **Kusumo, Naufaliando Yudo (2023)**  
+   Pengembangan Fitur Klasifikasi Hewan pada Aplikasi Wisata Kebun Binatang dengan Algoritma CNN.  
+   [Undergraduate Tesis](https://repository.its.ac.id/104229/)
+
+3. **Auliya, Maisan (2024)**  
+   Perbaikan Klasifikasi Hewan pada Aplikasi Mobile Kebun Binatang dengan Transfer Learning.  
+   [Undergraduate Tesis](https://repository.its.ac.id/111053/)  
+
+> Jika kamu menggunakan proyek ini dalam penelitian atau pengembangan lain, mohon cantumkan referensi kepada penulis-penulis di atas.
+
+
+
