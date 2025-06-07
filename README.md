@@ -44,7 +44,6 @@ ZooSite adalah aplikasi edukasi kebun binatang dengan fitur kalsidikasi gambar h
    ```bash
     flutter run
 
-
 ## ⚠️ Kendala
 
 - ✅ Saat ini aplikasi **hanya bisa dibuild dalam format `.apk`** untuk Android dan diuji langsung di emulator atau perangkat fisik.
