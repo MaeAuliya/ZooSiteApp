@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/shared/widgets/core_dialog.dart';
 import '../../../../core/shared/widgets/image_source_bottom_sheet.dart';
+import '../../../../core/utils/core_utils.dart';
 import '../../../image_classification/presentation/screens/classification_screen.dart';
 import '../bloc/home_bloc.dart';
 import '../views/home_view.dart';
@@ -19,15 +20,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController chatBotController = TextEditingController();
-  late PageController historyController;
+  PageController historyController = PageController(viewportFraction: 0.5);
 
   @override
   void initState() {
     context.homeProvider.initHome();
-    historyController = PageController(
-      viewportFraction: 0.5,
-      initialPage: context.homeProvider.animalHistories!.length,
-    );
+    context.homeBloc.add(GetAnimalHistoriesEvent());
     super.initState();
   }
 
@@ -44,7 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
       resizeToAvoidBottomInset: false,
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is OpenImageSourceBottomSheetSuccess) {
+          if (state is GetAnimalHistoriesError) {
+            CoreUtils.debugHandler(state.runtimeType, state.errorMessage);
+          } else if (state is OpenImageSourceBottomSheetSuccess) {
             showModalBottomSheet(
               context: context,
               builder: (_) => ImageSourceBottomSheet(
@@ -66,6 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 description: 'We\'re sorry, currently we still upgrading our features.',
               ),
             );
+          } else if (state is GetAnimalHistoriesSuccess) {
+            // historyController = PageController(
+            //   viewportFraction: 0.5,
+            //   initialPage: state.histories.length,
+            // );
+            context.homeProvider.initHistories(state.histories);
           }
         },
         builder: (_, state) => HomeView(

@@ -27,6 +27,7 @@ class HomeProvider extends ChangeNotifier {
     _currentHeader = 0;
     _headerTitle = _headerTitles[0];
     _headerIcon = _headerIcons[0];
+    _animalHistories = null;
   }
 
   int _currentHeader = 0;

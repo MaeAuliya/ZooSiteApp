@@ -154,8 +154,8 @@ class _ClassificationScreenState extends State<ClassificationScreen> {
                       modelName: model,
                       resizeTo: ClassificationModelTypeEnums.getModelShape(model),
                     );
-                    context.classificationBloc.add(ClassifyImageEvent(params));
                     Navigator.pop(context);
+                    context.classificationBloc.add(ClassifyImageEvent(params));
                   },
                 ),
               );

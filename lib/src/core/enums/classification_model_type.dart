@@ -16,7 +16,7 @@ class ClassificationModelTypeEnums {
       case ClassificationModelType.auliya:
         return '$_baseModels/auliya_model.tflite';
       case ClassificationModelType.fuadah:
-        return '$_baseModels/fuadah_model.tflite';
+        return '$_baseModels/model_ikan_float32.tflite';
     }
   }
 

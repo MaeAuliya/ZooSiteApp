@@ -14,12 +14,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required GetAnimalHistories getAnimalHistories,
   })  : _getAnimalHistories = getAnimalHistories,
         super(const HomeInit()) {
-    on<HomeEvent>((event, emit){
+    on<HomeEvent>((event, emit) {
       emit(HomeLoading());
     });
     on<GetAnimalHistoriesEvent>(_getAnimalHistoriesHandler);
     on<OpenImageSourceBottomSheetEvent>(_openImageSourceBottomSheetHandler);
     on<OpenDialogOnConstructionEvent>(_openDialogOnConstructionHandler);
+    on<MoveToHomeEvent>(_moveToHomeHandler);
   }
 
   Future<void> _getAnimalHistoriesHandler(
@@ -45,5 +46,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(OpenDialogOnConstructionSuccess());
+  }
+
+  Future<void> _moveToHomeHandler(
+    MoveToHomeEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(MoveToHomeSuccess());
   }
 }

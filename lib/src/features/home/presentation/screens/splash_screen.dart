@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/res/media_res.dart';
-import '../../../../core/utils/core_utils.dart';
 import '../bloc/home_bloc.dart';
 import 'home_screen.dart';
 
@@ -19,8 +18,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    context.homeBloc.add(GetAnimalHistoriesEvent());
     super.initState();
+    context.homeBloc.add(MoveToHomeEvent());
   }
 
   @override
@@ -28,10 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) async {
-          if (state is GetAnimalHistoriesError) {
-            CoreUtils.debugHandler(state.runtimeType, state.errorMessage);
-          } else if (state is GetAnimalHistoriesSuccess) {
-            context.homeProvider.initHistories(state.histories);
+          if (state is MoveToHomeSuccess) {
             await Future.delayed(Duration(seconds: 2), (){
               if (!context.mounted) return;
               Navigator.pushNamed(context, HomeScreen.routeName);

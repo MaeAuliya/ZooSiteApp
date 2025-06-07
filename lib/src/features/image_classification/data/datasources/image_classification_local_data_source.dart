@@ -41,14 +41,8 @@ class ImageClassificationLocalDataSourceImpl implements ImageClassificationLocal
       final inputShape = interpreter.getInputTensor(0).shape;
       final outputShape = interpreter.getOutputTensor(0).shape;
 
-      debugPrint(inputShape.toString());
-      debugPrint(inputShape.toString());
-
       final inputType = interpreter.getInputTensor(0).type;
       final outputType = interpreter.getOutputTensor(0).type;
-
-      debugPrint(inputType.toString());
-      debugPrint(outputType.toString());
 
       return ClassifierModel(
         interpreter: interpreter,
@@ -68,6 +62,7 @@ class ImageClassificationLocalDataSourceImpl implements ImageClassificationLocal
   Future<List<double>> _preProcessInput({
     required String img,
     required int resizeTo,
+    required ClassificationModelType modelType,
   }) async {
     try {
       final file = File(img);
@@ -90,22 +85,36 @@ class ImageClassificationLocalDataSourceImpl implements ImageClassificationLocal
       final resized = image.copyResize(cropped, width: resizeTo, height: resizeTo);
 
       // Konversi ke normalisasi float32
-      final imagePixels = resized.getBytes();
+      final imagePixels = resized.getBytes(format: (modelType == ClassificationModelType.fuadah) ? image.Format.rgb : image.Format.rgba);
       final input = List.generate(
         resizeTo,
         (y) => List.generate(
           resizeTo,
           (x) {
-            final pixelIndex = (y * resizeTo + x) * 4;
-            final r = imagePixels[pixelIndex] / 255.0;
-            final g = imagePixels[pixelIndex + 1] / 255.0;
-            final b = imagePixels[pixelIndex + 2] / 255.0;
+            final pixelIndex = (y * resizeTo + x) * ((modelType == ClassificationModelType.fuadah) ? 3 : 4);
+
+            // Normalisasi ke [-1,1] untuk model dari keras.appliaction, sisanya [0,1]
+            double r,g,b;
+
+            if (modelType == ClassificationModelType.auliya) {
+              r = imagePixels[pixelIndex] / 255.0;
+              g = imagePixels[pixelIndex + 1] / 255.0;
+              b = imagePixels[pixelIndex + 2] / 255.0;
+            } else if (modelType == ClassificationModelType.fuadah) {
+              r = imagePixels[pixelIndex].toDouble();
+              g = imagePixels[pixelIndex + 1].toDouble();
+              b = imagePixels[pixelIndex + 2].toDouble();
+            } else {
+              r = (imagePixels[pixelIndex] / 127.5) - 1.0;
+              g = (imagePixels[pixelIndex + 1] / 127.5) - 1.0;
+              b = (imagePixels[pixelIndex + 2] / 127.5) - 1.0;
+            }
+
             return [r, g, b];
           },
         ),
       );
 
-      // Konversi ke flat buffer
       final flatInput = input.expand((row) => row).expand((pixel) => pixel).toList();
 
       return flatInput;
@@ -128,6 +137,7 @@ class ImageClassificationLocalDataSourceImpl implements ImageClassificationLocal
       final input = await _preProcessInput(
         img: params.image,
         resizeTo: params.resizeTo,
+        modelType: params.modelName,
       );
 
       var outputBuffer =
@@ -140,11 +150,9 @@ class ImageClassificationLocalDataSourceImpl implements ImageClassificationLocal
       final durationInMilliseconds = stopwatch.elapsedMicroseconds / 1e6;
 
       var prediction = List<double>.from(outputBuffer[0]);
-      debugPrint(prediction.toString());
       var maxIndex = prediction.indexWhere((e) => e == prediction.reduce((a, b) => a > b ? a : b));
       var accuration = prediction[maxIndex];
       var model = params.modelName;
-      // var calories = Constant.calories[maxIndex];
 
       final animal = ClassificationAnimalModel(
         name: ClassificationModelTypeEnums.getAnimalName(model)[maxIndex],
@@ -161,7 +169,7 @@ class ImageClassificationLocalDataSourceImpl implements ImageClassificationLocal
         scienceName: ClassificationModelTypeEnums.getAnimalLatinName(model)[maxIndex],
         uniqueFact: ClassificationModelTypeEnums.getAnimalUniqueFact(model)[maxIndex],
         description: ClassificationModelTypeEnums.getAnimalDesc(model)[maxIndex],
-        image: params.image,
+        image: ClassificationModelTypeEnums.getAnimalImage(model)[maxIndex],
       );
 
       tempHistories.add(history);

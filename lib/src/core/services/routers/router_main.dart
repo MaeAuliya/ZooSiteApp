@@ -11,6 +11,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         settings: settings,
       );
     case HomeScreen.routeName:
+      print("Build BlocProvider for HomeScreen");
       return _pageBuilder(
         (_) => BlocProvider(
           create: (_) => sl<HomeBloc>(),

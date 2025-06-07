@@ -23,18 +23,20 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
   @override
   Future<List<CoreAnimalModel>> getAnimalHistories() async {
     try {
-      final dummyTempHistories = List.generate(
-        6,
-        (index) => CoreAnimalModel(
-          name: (index.isEven) ? 'Maximus Elephant' : 'Maximus Lion',
-          scienceName: (index.isEven) ? 'Elephas Maximus' : 'Leona Maximus',
-          uniqueFact: 'Uniques Fact ${index + 1}',
-          image: (index.isEven) ? MediaRes.dummyElephantImages : MediaRes.dummyLionImages,
-          description: 'desc $index'
-        ),
-      );
+      if (tempHistories.isEmpty) {
+        final dummyTempHistories = List.generate(
+          2,
+              (index) => CoreAnimalModel(
+              name: (index.isEven) ? 'Maximus Elephant' : 'Maximus Lion',
+              scienceName: (index.isEven) ? 'Elephas Maximus' : 'Leona Maximus',
+              uniqueFact: 'Uniques Fact ${index + 1}',
+              image: (index.isEven) ? MediaRes.dummyElephantImages : MediaRes.dummyLionImages,
+              description: 'desc $index'
+          ),
+        );
 
-      tempHistories.addAll(dummyTempHistories);
+        tempHistories.addAll(dummyTempHistories);
+      }
 
       return tempHistories;
     } on LocalException {

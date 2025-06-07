@@ -22,9 +22,6 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
       builder: (_, provider, __) {
-        if (provider.animalHistories == null) {
-          return LoadingView(color: Colors.white,);
-        }
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           spacing: context.heightScale * 32,

@@ -20,7 +20,8 @@ class ClassificationNameView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       spacing: context.widthScale * 20,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
           children: [
@@ -40,19 +41,24 @@ class ClassificationNameView extends StatelessWidget {
           width: 1,
           color: Colours.greyTextFieldStrokeColor,
         ),
-        Column(
-          children: [
-            CoreTypography.coreText(
-              text: 'Nama Latin',
-              fontSize: 14,
-              fontWeight: CoreTypography.semiBold,
-              color: Colours.darkGreenColor,
-            ),
-            CoreTypography.coreText(
-              text: latin,
-              fontStyle: FontStyle.italic,
-            ),
-          ],
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: context.width * 0.4),
+          child: Column(
+            children: [
+              CoreTypography.coreText(
+                text: 'Nama Latin',
+                fontSize: 14,
+                fontWeight: CoreTypography.semiBold,
+                color: Colours.darkGreenColor,
+              ),
+              CoreTypography.coreText(
+                text: latin,
+                fontStyle: FontStyle.italic,
+                maxLine: 2,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
         Container(
           height: context.height * 0.05,

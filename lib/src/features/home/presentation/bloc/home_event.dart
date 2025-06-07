@@ -18,3 +18,7 @@ final class OpenImageSourceBottomSheetEvent extends HomeEvent {
 final class OpenDialogOnConstructionEvent extends HomeEvent {
   const OpenDialogOnConstructionEvent();
 }
+
+final class MoveToHomeEvent extends HomeEvent {
+  const MoveToHomeEvent();
+}

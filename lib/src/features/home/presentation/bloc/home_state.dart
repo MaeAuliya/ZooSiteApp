@@ -40,3 +40,7 @@ final class OpenImageSourceBottomSheetSuccess extends HomeState {
 final class OpenDialogOnConstructionSuccess extends HomeState {
   const OpenDialogOnConstructionSuccess();
 }
+
+final class MoveToHomeSuccess extends HomeState {
+  const MoveToHomeSuccess();
+}

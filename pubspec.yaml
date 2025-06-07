@@ -43,6 +43,7 @@ flutter:
     - assets/images/
     - assets/vectors/
     - assets/models/
+    - assets/model_images/
 
   fonts:
     - family: Inter

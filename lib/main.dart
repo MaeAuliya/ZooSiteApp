@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         title: 'ZooSite',
         debugShowCheckedModeBanner: false,
         theme: theme(),
-        onGenerateRoute: (settings) => generateRoute(settings),
+        onGenerateRoute: generateRoute,
         initialRoute: SplashScreen.routeName,
       ),
     );

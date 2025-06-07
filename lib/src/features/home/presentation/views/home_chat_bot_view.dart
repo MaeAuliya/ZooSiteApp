@@ -23,10 +23,6 @@ class HomeChatBotView extends StatelessWidget {
           color: Colours.blackColor,
           fontSize: 20,
         ),
-        CoreTypography.coreText(
-          text: 'Dengan ChatBot kami',
-          color: Colours.blackColor,
-        ),
         SizedBox(
           height: context.heightScale * 8,
         ),

@@ -60,8 +60,10 @@ class HomeHistoryView extends StatelessWidget {
                       child: PageView.builder(
                         controller: historyController,
                         itemCount: provider.animalHistories!.length,
-                        onPageChanged: (index) => provider.updateHistory(index),
+                        onPageChanged: provider.updateHistory,
                         itemBuilder: (_, index) {
+                          final reversedIndex = provider.animalHistories!.length - 1 - index;
+                          final history = provider.animalHistories![reversedIndex];
                           return AnimatedBuilder(
                             animation: historyController,
                             builder: (context, child) {
@@ -84,9 +86,9 @@ class HomeHistoryView extends StatelessWidget {
                             child: HomeHistoryItem(
                               id: index,
                               currentId: provider.currentHistory.floor(),
-                              image: provider.animalHistories![index].image,
-                              name: provider.animalHistories![index].name,
-                              scienceName: provider.animalHistories![index].scienceName,
+                              image: history.image,
+                              name: history.name,
+                              scienceName: history.scienceName,
                             ),
                           );
                         },
